@@ -31,54 +31,45 @@ export default class Calculator extends Vue {
   
   current = '';
   tmpOutcome = 0;
+  operator = '+';
 
   finalResult = 0;
 
-  inputs: number[] = [];
-  operators: string[] = ['+'];
+  isFirst = true;
   
 
   clear() {
     this.current = '';
     this.tmpOutcome = 0;
+    this.operator = '+';
 
-    this.inputs = [];
-    this.operators = ['+'];
+    
   }
 
   operation(symbol: string) {
-    this.inputs.push(+this.current);
-    if (symbol != '=') {
-      this.operators.push(symbol);
-      
+    switch (this.operator) {
+      case '+':
+        this.tmpOutcome += +this.current;
+        break;
 
-      this.current = '';
-    } else {
-      for (let i = 0; i<this.inputs.length; i++) {
-        switch (this.operators[i]) {
-          case '+':
-            this.tmpOutcome = this.tmpOutcome + this.inputs[i];
-            break;
+      case '-':
+        this.tmpOutcome -= +this.current;
+        break;
 
-          case '-':
-            this.tmpOutcome = this.tmpOutcome - this.inputs[i];
-            break;
+      case '*':
+        this.tmpOutcome *= +this.current;
+        break;
 
-          case '*':
-            this.tmpOutcome = this.tmpOutcome * this.inputs[i];
-            break;
-
-          case '/':
-            this.tmpOutcome = this.tmpOutcome / this.inputs[i];
-            break;
-        
-          default:
-            break;
-        }
-
-        this.current = '';
-      }
+      case '/':
+        this.tmpOutcome /= +this.current;
+        break;
+    
+      default:
+        break;
     }
+
+    this.operator = symbol;
+    this.current = '';
     
   }
 
@@ -87,7 +78,12 @@ export default class Calculator extends Vue {
   }
 
   changeSign() {
-    this.current = (+this.current * (-1)).toString();
+    if (this.current != '') {
+      this.current = (+this.current * (-1)).toString();
+    } else {
+      this.tmpOutcome *= -1;
+    }
+    
   }
 
   percentage() {
