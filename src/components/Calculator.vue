@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-
+//for tommorow fix percentage
 @Component
 export default class Calculator extends Vue {
   
